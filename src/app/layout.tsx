@@ -1,8 +1,15 @@
 import { getBaseURL } from "@lib/util/env"
-import Footer from "components/Footer"
-import Header from "components/Header"
 import { Metadata } from "next"
 import "styles/globals.css"
+
+import { Mona_Sans } from "next/font/google"
+
+const monaSans = Mona_Sans({
+  subsets: ["latin"],
+  variable: "--font-mona-sans",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
@@ -10,11 +17,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-mode="light">
-      <body>
-        <Header />
+    <html lang="en" data-mode="light" className={monaSans.variable}>
+      <body className="font-sans">
         <main className="relative">{props.children}</main>
-        <Footer />
       </body>
     </html>
   )
