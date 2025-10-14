@@ -1,177 +1,169 @@
 "use client"
 
-import { addToCart } from "@lib/data/cart"
-import { useIntersection } from "@lib/hooks/use-in-view"
-import { HttpTypes } from "@medusajs/types"
-import { Button } from "@medusajs/ui"
-import Divider from "@modules/common/components/divider"
-import OptionSelect from "@modules/products/components/product-actions/option-select"
-import { isEqual } from "lodash"
+import { useState, useMemo } from "react"
 import { useParams } from "next/navigation"
-import { useEffect, useMemo, useRef, useState } from "react"
-import ProductPrice from "../product-price"
-import MobileActions from "./mobile-actions"
+import { HttpTypes } from "@medusajs/types"
+import { addToCart } from "@lib/data/cart"
+import Button from "components/_ui/Button"
+
+const COLOR_MAP: Record<string, string> = {
+  White: "#FFFFFF",
+  Black: "#050505",
+  "Dark Gray": "#3A3A3A",
+}
 
 type ProductActionsProps = {
   product: HttpTypes.StoreProduct
   region: HttpTypes.StoreRegion
-  disabled?: boolean
-}
-
-const optionsAsKeymap = (
-  variantOptions: HttpTypes.StoreProductVariant["options"]
-) => {
-  return variantOptions?.reduce((acc: Record<string, string>, varopt: any) => {
-    acc[varopt.option_id] = varopt.value
-    return acc
-  }, {})
 }
 
 export default function ProductActions({
   product,
-  disabled,
+  region,
 }: ProductActionsProps) {
-  const [options, setOptions] = useState<Record<string, string | undefined>>({})
+  const [selectedMaterial, setSelectedMaterial] = useState<string | undefined>()
+  const [selectedColor, setSelectedColor] = useState<string | undefined>()
+  const [quantity, setQuantity] = useState(1)
   const [isAdding, setIsAdding] = useState(false)
   const countryCode = useParams().countryCode as string
 
-  // If there is only 1 variant, preselect the options
-  useEffect(() => {
-    if (product.variants?.length === 1) {
-      const variantOptions = optionsAsKeymap(product.variants[0].options)
-      setOptions(variantOptions ?? {})
-    }
-  }, [product.variants])
+  const materials =
+    product.options?.find((o) => o.title.toLowerCase() === "material")
+      ?.values || []
+  const colors =
+    product.options?.find((o) => o.title.toLowerCase() === "color")?.values ||
+    []
 
   const selectedVariant = useMemo(() => {
-    if (!product.variants || product.variants.length === 0) {
-      return
-    }
+    return product.variants?.find((variant) => {
+      const variantOptions = Object.fromEntries(
+        variant.options?.map((o) => [o.option_id, o.value]) || []
+      )
+      const materialId = product.options?.find(
+        (o) => o.title.toLowerCase() === "material"
+      )?.id
+      const colorId = product.options?.find(
+        (o) => o.title.toLowerCase() === "color"
+      )?.id
 
-    return product.variants.find((v) => {
-      const variantOptions = optionsAsKeymap(v.options)
-      return isEqual(variantOptions, options)
+      const matchMaterial = materialId
+        ? variantOptions[materialId] === selectedMaterial
+        : true
+      const matchColor = colorId
+        ? variantOptions[colorId] === selectedColor
+        : true
+
+      return matchMaterial && matchColor
     })
-  }, [product.variants, options])
+  }, [selectedMaterial, selectedColor, product])
 
-  // update the options when a variant is selected
-  const setOptionValue = (optionId: string, value: string) => {
-    setOptions((prev) => ({
-      ...prev,
-      [optionId]: value,
-    }))
-  }
-
-  //check if the selected options produce a valid variant
-  const isValidVariant = useMemo(() => {
-    return product.variants?.some((v) => {
-      const variantOptions = optionsAsKeymap(v.options)
-      return isEqual(variantOptions, options)
-    })
-  }, [product.variants, options])
-
-  // check if the selected variant is in stock
-  const inStock = useMemo(() => {
-    // If we don't manage inventory, we can always add to cart
-    if (selectedVariant && !selectedVariant.manage_inventory) {
-      return true
-    }
-
-    // If we allow back orders on the variant, we can add to cart
-    if (selectedVariant?.allow_backorder) {
-      return true
-    }
-
-    // If there is inventory available, we can add to cart
-    if (
-      selectedVariant?.manage_inventory &&
-      (selectedVariant?.inventory_quantity || 0) > 0
-    ) {
-      return true
-    }
-
-    // Otherwise, we can't add to cart
-    return false
-  }, [selectedVariant])
-
-  const actionsRef = useRef<HTMLDivElement>(null)
-
-  const inView = useIntersection(actionsRef, "0px")
-
-  // add the selected variant to the cart
   const handleAddToCart = async () => {
-    if (!selectedVariant?.id) return null
-
+    if (!selectedVariant?.id) return
     setIsAdding(true)
-
     await addToCart({
       variantId: selectedVariant.id,
-      quantity: 1,
+      quantity,
       countryCode,
     })
-
     setIsAdding(false)
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-y-2" ref={actionsRef}>
-        <div>
-          {(product.variants?.length ?? 0) > 1 && (
-            <div className="flex flex-col gap-y-4">
-              {(product.options || []).map((option) => {
-                return (
-                  <div key={option.id}>
-                    <OptionSelect
-                      option={option}
-                      current={options[option.id]}
-                      updateOption={setOptionValue}
-                      title={option.title ?? ""}
-                      data-testid="product-options"
-                      disabled={!!disabled || isAdding}
-                    />
-                  </div>
-                )
-              })}
-              <Divider />
-            </div>
-          )}
-        </div>
+    <div className="flex flex-col items-start justify-start gap-6 w-full max-w-full md:max-w-[243px] pt-16">
+      {/* materijali */}
+      {materials.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-row text-base font-normal justify-start gap-6">
+            <p className="text-B&W-Black">Materials</p>
+            <p className="text-Grays-Gray-500">{selectedMaterial}</p>
+          </div>
+          <div className="relative w-full">
+            <select
+              value={selectedMaterial || ""}
+              onChange={(e) => setSelectedMaterial(e.target.value)}
+              className="appearance-none border border-gray-300 text-sm px-3 py-2 pr-10 rounded-base focus:outline-none w-full"
+            >
+              <option value="">Select material</option>
+              {materials.map((m) => (
+                <option key={m.id} value={m.value}>
+                  {m.value}
+                </option>
+              ))}
+            </select>
 
-        <ProductPrice product={product} variant={selectedVariant} />
+            <svg
+              className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 9L12 15L18 9"
+                stroke="#050505"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+      )}
+
+      {/* boje */}
+      {colors.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-row text-base font-normal  justify-start gap-6">
+            <p className="text-B&W-Black">Colors</p>
+            <p className="text-Grays-Gray-500">{selectedColor}</p>
+          </div>
+          <div className="flex gap-6 flex-wrap">
+            {colors.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => setSelectedColor(c.value)}
+                className={`relative w-8 h-8 border border-gray-200 ${
+                  selectedColor === c.value
+                    ? "after:absolute after:-bottom-[8px] after:left-0 after:w-full after:h-[1px] after:bg-black"
+                    : ""
+                }`}
+                style={{
+                  backgroundColor: COLOR_MAP[c.value] || c.value.toLowerCase(),
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* botuni */}
+      <div className="flex items-center gap-3 pt-24">
+        <div className="flex items-center border border-gray-300 rounded-md">
+          <button
+            onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+            className="px-3 py-2 text-sm text-gray-700"
+          >
+            –
+          </button>
+          <span className="px-4 text-sm">{quantity}</span>
+          <button
+            onClick={() => setQuantity((q) => q + 1)}
+            className="px-3 py-2 text-sm text-gray-700"
+          >
+            +
+          </button>
+        </div>
 
         <Button
           onClick={handleAddToCart}
-          disabled={
-            !inStock ||
-            !selectedVariant ||
-            !!disabled ||
-            isAdding ||
-            !isValidVariant
-          }
-          variant="primary"
-          className="w-full h-10"
-          isLoading={isAdding}
-          data-testid="add-product-button"
+          disabled={!selectedVariant || isAdding}
+          size="lg"
+          // isLoading={isAdding}
         >
-          {!selectedVariant && !options
-            ? "Select variant"
-            : !inStock || !isValidVariant
-            ? "Out of stock"
-            : "Add to cart"}
+          Add to cart
         </Button>
-        <MobileActions
-          product={product}
-          variant={selectedVariant}
-          options={options}
-          updateOptions={setOptionValue}
-          inStock={inStock}
-          handleAddToCart={handleAddToCart}
-          isAdding={isAdding}
-          show={!inView}
-          optionsDisabled={!!disabled || isAdding}
-        />
       </div>
-    </>
+    </div>
   )
 }
