@@ -23,6 +23,11 @@ module.exports = {
       colors: {
         "B&W": {
           Black: "#050505",
+          White: "#FDFDFD",
+        },
+        Grays: {
+          "Gray-50": "#F4F4F4",
+          "Gray-500": "#808080",
         },
       },
       borderRadius: {
