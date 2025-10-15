@@ -27,7 +27,7 @@ const FirstSectionProduct = ({ product, region }: FirstSectionProductProps) => {
       <ImageGallery images={product?.images || []} />
 
       {/* info */}
-      <div className="w-full md:w-full px-4 pt-8 md:px-0 md:pl-[30px] md:pt-0 md:py-16 h-[611px] md:h-[810px] flex flex-col gap-8 justify-start items-start ">
+      <div className="flex flex-col w-full px-4 pt-8 md:px-0 md:pl-[60px] md:pt-0 md:py-16 h-[611px] md:h-[810px] justify-start items-start ">
         <div className="flex flex-col gap-2 items-start">
           {product.collection && (
             <p className="text-base text-Grays-Gray-500 leading-[140%]">
@@ -42,15 +42,11 @@ const FirstSectionProduct = ({ product, region }: FirstSectionProductProps) => {
           </p>
         </div>
 
-        <p className="text-xs md:text-base font-normal leading-[140%] md:text-B&W-Black text-Grays-Gray-500 w-full max-w-[480px]">
+        <p className="mt-8 text-xs md:text-base font-normal leading-[140%] md:text-B&W-Black text-Grays-Gray-500 w-full max-w-[480px]">
           {product.description}
         </p>
 
         <ProductActions product={product} region={region} />
-
-        <p className="text-base font-normal text-Grays-Gray-500">
-          Estimate delivery 2–3 days
-        </p>
       </div>
     </section>
   )

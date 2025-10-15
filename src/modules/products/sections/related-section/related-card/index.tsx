@@ -67,19 +67,16 @@ const RelatedCard = ({ relatedProduct }: RelatedCardProps) => {
           <h3 className="font-normal text-xs text-B&W-Black leading-[140%]">
             {title}
           </h3>
-
-          {collection && (
-            <p className="text-xs font-normal text-Grays-Gray-500 leading-[140%]">
-              {collection}
-            </p>
-          )}
-
           <div className="flex items-center justify-between">
             <p className="font-semibold text-B&W-Black text-xs leading-[140%]">
               {price}€
             </p>
             {discountPrice && (
-              <p className="font-semibold text-Grays-Gray-500 line-through text-xs leading-[140%]">
+              <p
+                className={`${
+                  discountPrice ? "text-Error-Red" : "text-B&W-Black"
+                } font-semibold text-Grays-Gray-500 line-through text-xs leading-[140%]`}
+              >
                 {discountPrice}€
               </p>
             )}
