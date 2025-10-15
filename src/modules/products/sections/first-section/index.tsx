@@ -3,6 +3,8 @@
 import ImageGallery from "@modules/products/components/image-gallery"
 import ProductActions from "@modules/products/components/product-actions"
 import { HttpTypes } from "@medusajs/types"
+import { useRef } from "react"
+import { useIntersection } from "@lib/hooks/use-in-view"
 
 type FirstSectionProductProps = {
   product: HttpTypes.StoreProduct
@@ -10,8 +12,17 @@ type FirstSectionProductProps = {
 }
 
 const FirstSectionProduct = ({ product, region }: FirstSectionProductProps) => {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const isVisible = useIntersection(sectionRef, "0px", 0.3)
   return (
-    <section className="w-full flex flex-col md:flex-row py-0 px-0 md:py-16 md:px-24 md:items-start mx-auto max-w-[1600px]">
+    <section
+      ref={sectionRef}
+      className={`w-full flex flex-col md:flex-row py-0 px-0 md:py-16 md:px-24 md:items-start mx-auto max-w-[1600px] transition-all duration-1000 ${
+        isVisible
+          ? "animate-fade-in-up animate-delay-[300ms]"
+          : "opacity-0 translate-y-8"
+      }`}
+    >
       {/* images */}
       <ImageGallery images={product?.images || []} />
 

@@ -29,6 +29,7 @@ module.exports = {
           "Gray-50": "#F4F4F4",
           "Gray-500": "#808080",
         },
+        "Error-Red": "#DF4718",
       },
       borderRadius: {
         none: "0px",

@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 interface RelatedCardProps {
   relatedProduct: {
@@ -7,6 +8,7 @@ interface RelatedCardProps {
     collection?: string
     price?: number
     discountPrice?: number
+    id: string
   }
 }
 
@@ -16,29 +18,37 @@ const RelatedCard = ({ relatedProduct }: RelatedCardProps) => {
   return (
     <article className="flex flex-col items-start w-[163px] md:w-[384px]">
       {/* image container */}
-      <div className="relative h-[163px] md:h-[286px] w-full overflow-hidden">
+      <Link
+        href={"products/" + relatedProduct.id}
+        className="relative h-[163px] md:h-[286px] w-full overflow-hidden"
+      >
         <Image
           src={image}
           alt={title}
           fill
-          className="object-cover"
+          className="object-cover transition-transform duration-500 ease-in-out hover:scale-105"
           sizes="(max-width: 768px) 163px, 384px"
           priority={false}
         />
-      </div>
+      </Link>
 
-      <figcaption className="mt-3 w-full">
+      <figcaption className="mt-6 w-full">
         {/* desktop */}
-        <div className="hidden md:grid md:grid-cols-[1fr,auto] md:gap-y-1">
-          <h3 className="col-start-1 row-start-1 font-normal text-base text-B&W-Black leading-[140%]">
+        <div className="hidden md:grid md:grid-cols-[1fr,auto] leading-[140%]">
+          <h3 className="col-start-1 row-start-1 font-normal text-base text-B&W-Black ">
             {title}
           </h3>
-          <p className="col-start-2 row-start-1 text-right font-semibold text-base text-B&W-Black leading-[140%]">
+
+          <p
+            className={`${
+              discountPrice ? "text-Error-Red" : "text-B&W-Black"
+            } col-start-2 row-start-1 text-right font-semibold text-xs md:text-base  `}
+          >
             {price}€
           </p>
 
           {collection ? (
-            <p className="col-start-1 row-start-2 text-sm font-normal text-Grays-Gray-500 leading-[140%]">
+            <p className="col-start-1 row-start-2 text-sm font-normal text-Grays-Gray-500 ">
               {collection}
             </p>
           ) : (
@@ -46,7 +56,7 @@ const RelatedCard = ({ relatedProduct }: RelatedCardProps) => {
           )}
 
           {discountPrice && (
-            <p className="col-start-2 row-start-2 text-right font-semibold text-Grays-Gray-500 line-through">
+            <p className="col-start-2 row-start-2 text-right font-normal text-Grays-Gray-500 line-through text-xs md:text-base">
               {discountPrice}€
             </p>
           )}
