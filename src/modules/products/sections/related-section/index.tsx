@@ -41,7 +41,7 @@ const RelatedSection = () => {
   ]
 
   return (
-    <section className="flex flex-col px-4 py-[104px] gap-8 md:px-24 md:py-[144px] md:gap-[64px] mx-auto w-full max-w-[1440px]">
+    <section className="flex flex-col px-4 py-[104px] gap-8 md:px-24 md:py-[144px] md:gap-[64px] mx-auto w-full max-w-[1600px]">
       <SectionTitle>Related products</SectionTitle>
 
       {/* related container */}

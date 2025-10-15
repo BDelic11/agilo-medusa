@@ -19,7 +19,7 @@ const CollectionSection = () => {
   }
 
   return (
-    <section className="flex flex-col mx-auto gap-8 md:gap-20 w-full max-w-[1440px]">
+    <section className="flex flex-col mx-auto gap-8 md:gap-20 w-full max-w-[1600px]">
       {/* first part */}
       <div className="flex flex-col gap-8 font-medium md:text-5xl leading-[140%] px-4 md:px-24">
         <SectionTitle>{texts.title}</SectionTitle>

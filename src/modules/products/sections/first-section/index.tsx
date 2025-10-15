@@ -3,7 +3,6 @@
 import ImageGallery from "@modules/products/components/image-gallery"
 import ProductActions from "@modules/products/components/product-actions"
 import { HttpTypes } from "@medusajs/types"
-import { Heading } from "@medusajs/ui"
 
 type FirstSectionProductProps = {
   product: HttpTypes.StoreProduct
@@ -12,11 +11,11 @@ type FirstSectionProductProps = {
 
 const FirstSectionProduct = ({ product, region }: FirstSectionProductProps) => {
   return (
-    <section className="w-full flex flex-col md:flex-row py-0 px-0 md:py-16 md:px-24 md:items-start mx-auto  max-w-[1440px]">
-      {/* Image Gallery */}
+    <section className="w-full flex flex-col md:flex-row py-0 px-0 md:py-16 md:px-24 md:items-start mx-auto max-w-[1600px]">
+      {/* images */}
       <ImageGallery images={product?.images || []} />
 
-      {/* Product Info + Actions */}
+      {/* info */}
       <div className="w-full md:w-full px-4 pt-8 md:px-0 md:pl-[30px] md:pt-0 md:py-16 h-[611px] md:h-[810px] flex flex-col gap-8 justify-start items-start ">
         <div className="flex flex-col gap-2 items-start">
           {product.collection && (
@@ -32,15 +31,12 @@ const FirstSectionProduct = ({ product, region }: FirstSectionProductProps) => {
           </p>
         </div>
 
-        {/* Description */}
         <p className="text-xs md:text-base font-normal leading-[140%] md:text-B&W-Black text-Grays-Gray-500 w-full max-w-[480px]">
           {product.description}
         </p>
 
-        {/* Product actions  */}
         <ProductActions product={product} region={region} />
 
-        {/* Delivery info */}
         <p className="text-base font-normal text-Grays-Gray-500">
           Estimate delivery 2–3 days
         </p>
