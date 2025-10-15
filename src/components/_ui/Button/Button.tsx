@@ -9,7 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-B&W-Black text-B&W-White hover:bg-gray-900 ",
+        primary: "bg-B&W-Black text-B&W-White hover:bg-gray-900",
         secondary:
           "bg-gray-100 text-black hover:bg-gray-200 focus-visible:ring-gray-300",
         outline:
@@ -19,7 +19,7 @@ const buttonVariants = cva(
       size: {
         sm: "h-8 px-3",
         md: "h-9 px-4",
-        lg: "h-12 px-6 text-base w-full whitespace-nowrap",
+        lg: "h-12 px-6 w-full md:w-[388px] text-base whitespace-nowrap",
       },
     },
     defaultVariants: {
