@@ -1,25 +1,37 @@
+"use client"
+import { useIntersection } from "@lib/hooks/use-in-view"
 import { Product } from "@medusajs/js-sdk/dist/admin/product"
 import SectionTitle from "components/_ui/SectionTitle"
 import Image from "next/image"
 import Link from "next/link"
-import React from "react"
+import React, { useRef } from "react"
 
 interface CollectionSectionProps {
   product?: Product[]
 }
 
+const texts = {
+  title: "Collection Inspired Interior",
+  heading: "The Paloma Haven sofa is a masterpiece of minimalism and luxury.",
+  link: {
+    href: " /collections/modern-luxe",
+    text: "See more out of ‘Modern Luxe’ collection",
+  },
+}
+
 const CollectionSection = () => {
-  const texts = {
-    title: "Collection Inspired Interior",
-    heading: "The Paloma Haven sofa is a masterpiece of minimalism and luxury.",
-    link: {
-      href: " /collections/modern-luxe",
-      text: "See more out of ‘Modern Luxe’ collection",
-    },
-  }
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const isVisible = useIntersection(sectionRef, "0px", 0.1)
 
   return (
-    <section className="flex flex-col mx-auto gap-8 md:gap-20 w-full max-w-[1600px]">
+    <section
+      ref={sectionRef}
+      className={`flex flex-col mx-auto gap-8 md:gap-20 w-full max-w-[1600px] transition-all duration-1000 ${
+        isVisible
+          ? "animate-fade-in-up animate-delay-[300ms]"
+          : "opacity-0 translate-y-8"
+      }`}
+    >
       {/* first part */}
       <div className="flex flex-col gap-8 font-medium md:text-5xl leading-[140%] px-4 md:px-24">
         <SectionTitle>{texts.title}</SectionTitle>

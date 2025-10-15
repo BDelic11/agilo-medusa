@@ -6,7 +6,7 @@ import React from "react"
 
 const Header = () => {
   return (
-    <header className="flex flex-row justify-between items-center w-full md:h-[84px] h-[72px] px-8 md:px-24 bg-transparent">
+    <header className="z-10 sticky top-0 flex flex-row justify-between items-center w-full md:h-[84px] h-[72px] px-8 md:px-24 bg-transparent">
       <Link
         href={routes.home}
         className="font-sans font-medium text-2xl leading-[0.9] tracking-normal text-B&W-Black"

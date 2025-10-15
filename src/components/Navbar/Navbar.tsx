@@ -9,16 +9,19 @@ const navbarItems = [
 
 const Navbar = () => {
   return (
-    <nav className="hidden md:flex flex-row justify-center gap-8">
-      {navbarItems.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          className=" font-normal text-base leading-relaxed text-B&W-Black transition-colors duration-300 hover:text-gray-500"
-        >
-          {item.label}
-        </Link>
-      ))}
+    <nav aria-label="Main navigation" className="hidden md:flex justify-center">
+      <ul className="flex flex-row gap-8 list-none">
+        {navbarItems.map((item) => (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              className="font-normal text-base leading-relaxed text-B&W-Black transition-colors duration-300 hover:text-gray-500"
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </nav>
   )
 }
