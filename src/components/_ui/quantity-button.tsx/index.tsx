@@ -10,7 +10,7 @@ const QuantityButton = ({
   className,
 }: QuantityButtonProps) => {
   return (
-    <button onClick={setQuantity} className={`${className} py-3 `}>
+    <button onClick={setQuantity} className={`${className} py-3 text-2xl `}>
       {children}
     </button>
   )

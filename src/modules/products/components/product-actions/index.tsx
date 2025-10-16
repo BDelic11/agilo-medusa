@@ -4,7 +4,7 @@ import { useState, useMemo } from "react"
 import { useParams } from "next/navigation"
 import { HttpTypes } from "@medusajs/types"
 import { addToCart } from "@lib/data/cart"
-import Button from "components/_ui/Button"
+import { Button } from "components/_ui/button"
 import QuantityButton from "components/_ui/quantity-button.tsx"
 
 const COLOR_MAP: Record<string, string> = {
@@ -71,7 +71,7 @@ export default function ProductActions({
 
   return (
     <>
-      <div className="flex flex-col items-start justify-start gap-6 w-full max-w-full md:max-w-[243px] pt-16">
+      <div className="flex flex-col items-start justify-start gap-8 md:gap-6 w-full max-w-full md:max-w-[243px] mt-8 md:mt-16">
         {/* materijali */}
         {materials.length > 0 && (
           <div className="flex flex-col gap-2">
@@ -141,7 +141,7 @@ export default function ProductActions({
         )}
 
         {/* botuni */}
-        <div className="flex flex-col md:flex-row items-center gap-3 pt-24 w-full md:w-[540px]">
+        <div className="flex flex-col md:flex-row items-center gap-3 pt-8 md:pt-24 w-full md:w-[540px]">
           <div className="flex items-center border border-gray-300 rounded-[4px] h-12 w-full md:w-auto justify-center">
             <QuantityButton
               className="pl-6"

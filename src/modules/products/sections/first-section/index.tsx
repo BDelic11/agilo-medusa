@@ -27,7 +27,7 @@ const FirstSectionProduct = ({ product, region }: FirstSectionProductProps) => {
       <ImageGallery images={product?.images || []} />
 
       {/* info */}
-      <div className="flex flex-col w-full px-4 pt-8 md:px-0 md:pl-[60px] md:pt-0 md:py-16 h-[611px] md:h-[810px] justify-start items-start ">
+      <div className="flex flex-col w-full px-4 pt-8 md:px-0 md:pl-[60px] md:pt-0 md:py-16 h-[611px] md:h-auto justify-start items-start ">
         <div className="flex flex-col gap-2 items-start">
           {product.collection && (
             <p className="text-base text-Grays-Gray-500 leading-[140%]">

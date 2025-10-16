@@ -1,6 +1,6 @@
 import { routes } from "@lib/routes"
-import Navbar from "components/Navbar"
-import RightIcons from "components/RightIcons/RightIcons"
+import Navbar from "components/navbar"
+import RightIcons from "components/right-icons"
 import Link from "next/link"
 import React from "react"
 

@@ -1,5 +1,5 @@
-import FooterLinks from "./FooterLinks"
-import NewsletterForm from "./NewsletterForm"
+import FooterLinks from "./footer-links"
+import NewsletterForm from "./newsletter-form"
 
 const Footer = () => {
   return (

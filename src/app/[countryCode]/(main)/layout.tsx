@@ -6,8 +6,8 @@ import { getBaseURL } from "@lib/util/env"
 import { StoreCartShippingOption } from "@medusajs/types"
 import CartMismatchBanner from "@modules/layout/components/cart-mismatch-banner"
 import FreeShippingPriceNudge from "@modules/shipping/components/free-shipping-price-nudge"
-import Header from "components/Header"
-import Footer from "components/Footer"
+import Header from "components/header"
+import Footer from "components/footer"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),

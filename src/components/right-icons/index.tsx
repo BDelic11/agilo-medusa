@@ -1,9 +1,9 @@
-import SearchIcon from "components/Icons/SearchIcon"
-import ChevronDown from "components/Icons/ChevronDown"
+import SearchIcon from "components/icons/search"
+import ChevronDown from "components/icons/chevron-down"
 import { routes } from "@lib/routes"
 import Link from "next/link"
-import CartIcon from "components/Icons/CartIcon"
-import BurgerIcon from "components/Icons/BurgerIcon"
+import CartIcon from "components/icons/cart"
+import BurgerIcon from "components/icons/burger"
 
 const RightIcons = () => {
   return (

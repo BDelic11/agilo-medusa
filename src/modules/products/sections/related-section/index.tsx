@@ -1,5 +1,5 @@
 "use client"
-import SectionTitle from "components/_ui/SectionTitle"
+import SectionTitle from "components/_ui/section-title"
 import RelatedCard from "./related-card"
 import { useRef } from "react"
 import { useIntersection } from "@lib/hooks/use-in-view"
@@ -24,15 +24,15 @@ const relatedProducts: RelatedProduct[] = [
     id: "2",
     title: "Product 2",
     collection: "Collection B",
-    price: 1500,
+    price: 3000,
+    discountPrice: 1000,
     image: "/images/collections/collection-1.png",
   },
   {
     id: "3",
     title: "Product 3",
     collection: "Collection C",
-    price: 3000,
-    discountPrice: 1000,
+
     image: "/images/collections/collection-1.png",
   },
 ]
@@ -43,7 +43,7 @@ const RelatedSection = () => {
   return (
     <section
       ref={sectionRef}
-      className={`flex flex-col px-4 py-[104px] gap-8 md:px-24 md:py-[144px] md:gap-[64px] mx-auto w-full max-w-[1600px] transition-all duration-1000 ${
+      className={`flex flex-col px-4 py-[104px] md:py-[144px] gap-8 md:px-24  md:gap-[64px] mx-auto w-full max-w-[1600px] transition-all duration-1000 ${
         isVisible
           ? "animate-fade-in-up animate-delay-[300ms]"
           : "opacity-0 translate-y-8"
@@ -53,7 +53,7 @@ const RelatedSection = () => {
 
       {/* related container */}
       <ul className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-12 w-full">
-        {relatedProducts.map((product) => (
+        {relatedProducts.slice(0, 2).map((product) => (
           <li key={product.id} className="list-none">
             <RelatedCard relatedProduct={product} />
           </li>
