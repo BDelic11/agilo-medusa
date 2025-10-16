@@ -3,6 +3,7 @@ import { Metadata } from "next"
 import "styles/globals.css"
 
 import { Mona_Sans } from "next/font/google"
+import { Toaster } from "@medusajs/ui"
 
 const monaSans = Mona_Sans({
   subsets: ["latin"],
@@ -20,6 +21,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" data-mode="light" className={monaSans.variable}>
       <body>
         <main className="relative">{props.children}</main>
+        <Toaster />
       </body>
     </html>
   )

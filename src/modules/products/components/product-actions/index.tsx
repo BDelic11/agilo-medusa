@@ -6,6 +6,9 @@ import { HttpTypes } from "@medusajs/types"
 import { addToCart } from "@lib/data/cart"
 import { Button } from "components/_ui/button"
 import QuantityButton from "components/_ui/quantity-button.tsx"
+import MinusIcon from "components/icons/minus"
+import PlusIcon from "components/icons/plus"
+import { toast } from "@medusajs/ui"
 
 const COLOR_MAP: Record<string, string> = {
   White: "#FFFFFF",
@@ -60,13 +63,24 @@ export default function ProductActions({
 
   const handleAddToCart = async () => {
     if (!selectedVariant?.id) return
-    setIsAdding(true)
-    await addToCart({
-      variantId: selectedVariant.id,
-      quantity,
-      countryCode,
-    })
-    setIsAdding(false)
+    try {
+      setIsAdding(true)
+      await addToCart({
+        variantId: selectedVariant.id,
+        quantity,
+        countryCode,
+      })
+    } catch (error) {
+      console.log(error)
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred. Please try again."
+      )
+    } finally {
+      toast("Successfully added to cart!")
+      setIsAdding(false)
+    }
   }
 
   return (
@@ -147,7 +161,7 @@ export default function ProductActions({
               className="pl-6"
               setQuantity={() => setQuantity((q) => Math.max(1, q - 1))}
             >
-              –
+              <MinusIcon color={quantity <= 1 ? "#C0C0C0" : "#050505"} />
             </QuantityButton>
             <span className="px-4 font-normal text-xl">{quantity}</span>
 
@@ -155,7 +169,7 @@ export default function ProductActions({
               className="pr-6"
               setQuantity={() => setQuantity((q) => q + 1)}
             >
-              +
+              <PlusIcon />
             </QuantityButton>
           </div>
 
@@ -165,7 +179,7 @@ export default function ProductActions({
             size="lg"
             // isLoading={isAdding}
           >
-            Add to cart
+            {isAdding ? "Adding..." : " Add to cart"}
           </Button>
         </div>
       </div>{" "}
