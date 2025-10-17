@@ -39,16 +39,13 @@ yarn
 # 3) Build projekta
 yarn build
 
-# 4) Migracije
-yarn medusa db:migrate
+# 4) Seed baze (demo podaci)
+yarn db:seed
 
-# 5) Seed baze (demo podaci)
-yarn seed
-
-# 6) Kreiranje admin korisnika
+# 5) Kreiranje admin korisnika
 yarn medusa user -e "admin@medusa.local" -p "supersecret"
 
-# 7) Pokretanje dev servera
+# 6) Pokretanje dev servera
 yarn dev
 
 Nakon što se backend pokrene, Medusa Admin je dostupan na http://localhost:9000/app. 
