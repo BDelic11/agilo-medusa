@@ -22,7 +22,8 @@ import { getRegion } from "./regions"
  */
 export async function retrieveCart(cartId?: string, fields?: string) {
   const id = cartId || (await getCartId())
-  fields ??= "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name"
+  fields ??=
+    "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name"
 
   if (!id) {
     return null
@@ -40,7 +41,7 @@ export async function retrieveCart(cartId?: string, fields?: string) {
     .fetch<HttpTypes.StoreCartResponse>(`/store/carts/${id}`, {
       method: "GET",
       query: {
-        fields
+        fields,
       },
       headers,
       next,
@@ -50,6 +51,54 @@ export async function retrieveCart(cartId?: string, fields?: string) {
     .catch(() => null)
 }
 
+export async function getCartQuantity({
+  cartId,
+  fields = "id,items.quantity",
+}: {
+  cartId?: string
+  fields?: string
+} = {}): Promise<number> {
+  try {
+    const id = cartId || (await getCartId())
+    if (!id) return 0
+
+    fields ??= "*items"
+
+    const headers = {
+      ...(await getAuthHeaders()),
+    }
+
+    const next = {
+      ...(await getCacheOptions("carts")),
+    }
+
+    const response = await sdk.client.fetch<HttpTypes.StoreCartResponse>(
+      `/store/carts/${id}`,
+      {
+        method: "GET",
+        query: { fields },
+        headers,
+        next,
+        cache: "force-cache",
+      }
+    )
+
+    const cart = response.cart
+
+    if (!cart?.items?.length) return 0
+
+    const totalQuantity = cart.items.reduce(
+      (sum, item) => sum + (item.quantity || 0),
+      0
+    )
+
+    return totalQuantity
+  } catch (error) {
+    console.error("Error retrieving cart quantity:", error)
+    return 0
+  }
+}
+
 export async function getOrSetCart(countryCode: string) {
   const region = await getRegion(countryCode)
 
@@ -57,7 +106,7 @@ export async function getOrSetCart(countryCode: string) {
     throw new Error(`Region not found for country code: ${countryCode}`)
   }
 
-  let cart = await retrieveCart(undefined, 'id,region_id')
+  let cart = await retrieveCart(undefined, "id,region_id")
 
   const headers = {
     ...(await getAuthHeaders()),
