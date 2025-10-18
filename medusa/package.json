@@ -14,9 +14,16 @@
   ],
   "scripts": {
     "build": "medusa build",
-    "seed": "medusa exec ./src/scripts/seed.ts",
     "start": "medusa start",
     "dev": "medusa develop",
+    "seed": "medusa exec ./utils/seed.ts",
+    "db:create": "createdb -U postgres -h localhost -p 5432 medusa || true",
+    "db:drop": "dropdb -U postgres -h localhost -p 5432 --if-exists medusa",
+    "db:migrate": "medusa db:migrate",
+    "db:seed": "yarn seed",
+    "db:nuke": "medusa exec ./utils/nuke.ts -- --yes",
+    "db:bootstrap": "yarn db:create && yarn db:migrate && yarn db:seed",
+    "user:create": "medusa user -e \"admin@medusa.local\" -p \"supersecret\"",
     "test:integration:http": "TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
     "test:integration:modules": "TEST_TYPE=integration:modules NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
     "test:unit": "TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit"

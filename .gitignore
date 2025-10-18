@@ -11,6 +11,12 @@ coverage
 
 !src/**
 
+.env
+.env.*
+!.env.example
+!.env.template
+!.env.local.example
+
 ./tsconfig.tsbuildinfo
 medusa-db.sql
 build
@@ -24,3 +30,6 @@ build
 !.yarn/versions
 
 .medusa
+**/node_modules/
+**/.cache/
+**/coverage/

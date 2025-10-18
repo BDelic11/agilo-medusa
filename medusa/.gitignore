@@ -1,0 +1,8 @@
+dist/
+build/
+.medusa
+uploads/
+tsconfig.tsbuildinfo
+coverage/
+.cache/
+node_modules/
