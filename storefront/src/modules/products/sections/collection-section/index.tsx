@@ -1,25 +1,16 @@
 "use client"
 import { useIntersection } from "@lib/hooks/use-in-view"
-import { Product } from "@medusajs/js-sdk/dist/admin/product"
+import { HttpTypes } from "@medusajs/types"
 import SectionTitle from "components/_ui/section-title"
 import Image from "next/image"
 import Link from "next/link"
 import React, { useRef } from "react"
 
 interface CollectionSectionProps {
-  product?: Product[]
+  product: HttpTypes.StoreProduct
 }
 
-const texts = {
-  title: "Collection Inspired Interior",
-  heading: "The Paloma Haven sofa is a masterpiece of minimalism and luxury.",
-  link: {
-    href: " /collections/modern-luxe",
-    text: "See more out of ‘Modern Luxe’ collection",
-  },
-}
-
-const CollectionSection = () => {
+const CollectionSection = ({ product }: CollectionSectionProps) => {
   const sectionRef = useRef<HTMLDivElement>(null)
   const isVisible = useIntersection(sectionRef, "0px", 0.1)
 
@@ -34,7 +25,7 @@ const CollectionSection = () => {
     >
       {/* first part */}
       <div className="flex flex-col gap-8 font-medium md:text-5xl leading-[140%] px-4 md:px-24">
-        <SectionTitle>{texts.title}</SectionTitle>
+        <SectionTitle>Collection Inspired Interior</SectionTitle>
         <div className="relative w-full h-60 md:h-[702px]">
           <Image
             src="/images/collections/collection-1.png"
@@ -73,12 +64,14 @@ const CollectionSection = () => {
         </div>
 
         <div className="flex flex-col md:w-[648px] h-auto gap-8 md:mt-20">
-          <SectionTitle>{texts.heading}</SectionTitle>
+          <SectionTitle>
+            The {product.title} sofa is a masterpiece of minimalism and luxury.
+          </SectionTitle>
           <Link
-            href={texts.link.href}
+            href={"/collections/" + product.collection?.handle}
             className="border-b-B&W-Black border-b-[1px] font-normal text-base md:text-2xl leading-[140%] w-fit"
           >
-            {texts.link.text}
+            See more out of ‘{product.collection?.title}’ collection
           </Link>
         </div>
       </div>
