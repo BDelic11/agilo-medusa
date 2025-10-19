@@ -72,25 +72,51 @@ export default async function seed({ container }: ExecArgs) {
     },
   })
 
-  const { result: regions } = await createRegionsWorkflow(container).run({
-    input: {
-      regions: [
-        {
-          name: "Europe",
-          currency_code: "eur",
-          countries: Array.from(COUNTRIES),
-          payment_providers: ["pp_system_default"],
-        },
-      ],
-    },
-  })
-
-  await createTaxRegionsWorkflow(container).run({
-    input: Array.from(COUNTRIES).map((country_code) => ({
-      country_code,
-      provider_id: "tp_system",
-    })),
-  })
+  const regionModule = container.resolve(Modules.REGION)
+  const existingRegions = await regionModule.listRegions(
+    {},
+    { relations: ["countries"] }
+  )
+  let europeRegion =
+    existingRegions.find((r: any) => r.currency_code === "eur") ||
+    existingRegions.find((r: any) => r.name?.toLowerCase() === "europe")
+  const alreadyAssigned = new Set<string>()
+  for (const r of existingRegions) {
+    for (const c of (r as any).countries || []) {
+      if (c?.iso_2) alreadyAssigned.add(String(c.iso_2).toLowerCase())
+    }
+  }
+  const countriesToAttach = Array.from(COUNTRIES).filter(
+    (iso2) => !alreadyAssigned.has(iso2.toLowerCase())
+  )
+  if (!europeRegion && countriesToAttach.length) {
+    const { result: createdRegions } = await createRegionsWorkflow(
+      container
+    ).run({
+      input: {
+        regions: [
+          {
+            name: "Europe",
+            currency_code: "eur",
+            countries: countriesToAttach,
+            payment_providers: ["pp_system_default"],
+          },
+        ],
+      },
+    })
+    europeRegion = createdRegions?.[0]
+  }
+  try {
+    if (countriesToAttach.length) {
+      await createTaxRegionsWorkflow(container).run({
+        input: countriesToAttach.map((country_code) => ({
+          country_code,
+          provider_id: "tp_system",
+        })),
+      })
+    }
+  } catch {}
+  const regions = europeRegion ? [europeRegion] : existingRegions
 
   let stockLocationId: string | undefined
   {
@@ -450,7 +476,8 @@ export default async function seed({ container }: ExecArgs) {
     logger.warn(`PK ensure failed (optional): ${String(e)}`)
   }
 
-  const regionNames = regions?.map((r) => r.name).join(", ") || ""
+  const regionNames =
+    (regions as any[])?.map((r: any) => r.name).join(", ") || ""
   logger.info(
     `Seed done: regions=[${regionNames}], collections=${COLLECTIONS.length}, products added: Paloma Haven, Camden Retreat, Oslo Drift (SALE), Sutton Royale`
   )
