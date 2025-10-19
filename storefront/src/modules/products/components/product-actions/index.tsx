@@ -18,13 +18,9 @@ const COLOR_MAP: Record<string, string> = {
 
 type ProductActionsProps = {
   product: HttpTypes.StoreProduct
-  region: HttpTypes.StoreRegion
 }
 
-export default function ProductActions({
-  product,
-  region,
-}: ProductActionsProps) {
+export default function ProductActions({ product }: ProductActionsProps) {
   const [selectedMaterial, setSelectedMaterial] = useState<string | undefined>()
   const [selectedColor, setSelectedColor] = useState<string | undefined>()
   const [quantity, setQuantity] = useState(1)
@@ -32,10 +28,10 @@ export default function ProductActions({
   const countryCode = useParams().countryCode as string
 
   const materials =
-    product.options?.find((o) => o.title.toLowerCase() === "material")
+    product.options?.find((o) => o.title.toLowerCase() === "materials")
       ?.values || []
   const colors =
-    product.options?.find((o) => o.title.toLowerCase() === "color")?.values ||
+    product.options?.find((o) => o.title.toLowerCase() === "colors")?.values ||
     []
 
   const selectedVariant = useMemo(() => {

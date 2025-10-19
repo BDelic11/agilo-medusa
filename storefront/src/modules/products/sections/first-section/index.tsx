@@ -38,7 +38,9 @@ const FirstSectionProduct = ({ product, region }: FirstSectionProductProps) => {
             {product.title}
           </h1>
           <p className="text-2xl font-normal text-B&W-Black leading-[140%]">
-            €{product?.variants?.[0]?.calculated_price?.calculated_amount || 0}
+            €
+            {(product?.variants?.[0]?.calculated_price?.calculated_amount ||
+              0) / 100}
           </p>
         </div>
 
@@ -46,7 +48,7 @@ const FirstSectionProduct = ({ product, region }: FirstSectionProductProps) => {
           {product.description}
         </p>
 
-        <ProductActions product={product} region={region} />
+        <ProductActions product={product} />
       </div>
     </section>
   )

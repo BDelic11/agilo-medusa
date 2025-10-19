@@ -99,7 +99,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
           <button
             key={i}
             onClick={() => scrollTo(i)}
-            className="flex flex-col items-center text-sm text-gray-700"
+            className="flex flex-col items-center text-sm text-Grays-Gray-500"
           >
             <span
               className={`transition-colors duration-300 ${

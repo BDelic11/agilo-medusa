@@ -22,7 +22,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     <>
       <FirstSectionProduct product={product} region={region} />
       <CollectionSection product={product} />
-      <RelatedSection />
+      <RelatedSection product={product} countryCode={countryCode} />
     </>
   )
 }
