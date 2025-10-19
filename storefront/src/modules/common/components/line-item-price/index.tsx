@@ -17,7 +17,7 @@ const LineItemPrice = ({
   const { total, original_total } = item
   const originalPrice = original_total
   const currentPrice = total
-  const hasReducedPrice = currentPrice < originalPrice
+  const hasReducedPrice = (currentPrice ?? 0) < (originalPrice ?? 0)
 
   return (
     <div className="flex flex-col gap-x-2 text-ui-fg-subtle items-end">
@@ -33,14 +33,14 @@ const LineItemPrice = ({
                 data-testid="product-original-price"
               >
                 {convertToLocale({
-                  amount: originalPrice,
+                  amount: originalPrice ? originalPrice / 100 : 0,
                   currency_code: currencyCode,
                 })}
               </span>
             </p>
             {style === "default" && (
               <span className="text-ui-fg-interactive">
-                -{getPercentageDiff(originalPrice, currentPrice || 0)}%
+                -{getPercentageDiff(originalPrice || 0, currentPrice || 0)}%
               </span>
             )}
           </>
@@ -52,7 +52,7 @@ const LineItemPrice = ({
           data-testid="product-price"
         >
           {convertToLocale({
-            amount: currentPrice,
+            amount: currentPrice ? currentPrice / 100 : 0,
             currency_code: currencyCode,
           })}
         </span>
