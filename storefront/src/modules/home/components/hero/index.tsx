@@ -1,33 +1,30 @@
-import { Github } from "@medusajs/icons"
-import { Button, Heading } from "@medusajs/ui"
+import { Button } from "components/_ui/button"
+import Link from "next/link"
+
+const TARGET_PRODUCT_HANDLE = "paloma-haven"
+const DEFAULT_COUNTRY = "hr"
 
 const Hero = () => {
   return (
-    <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
-      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-6">
-        <span>
-          <Heading
-            level="h1"
-            className="text-3xl leading-10 text-ui-fg-base font-normal"
-          >
-            Ecommerce Starter Template
-          </Heading>
-          <Heading
-            level="h2"
-            className="text-3xl leading-10 text-ui-fg-subtle font-normal"
-          >
-            Powered by Medusa and Next.js
-          </Heading>
-        </span>
-        <a
-          href="https://github.com/medusajs/nextjs-starter-medusa"
-          target="_blank"
-        >
-          <Button variant="secondary">
-            View on GitHub
-            <Github />
-          </Button>
-        </a>
+    <div className=" w-full min-h-[90vh] flex items-center">
+      <div className=" mx-auto max-w-[1100px] px-6 py-16 md:py-24 flex flex-col items-center text-center gap-6">
+        <div className="flex flex-col gap-2">
+          <h1 className="font-semibold text-2xl md:text-[40px] text-B&W-Black leading-[140%]">
+            Zadatak za projekt Agilo
+          </h1>
+          <h2 className="text-xl md:text-2xl leading-snug text-Grays-Gray-500 font-normal">
+            Next.js + TypeScript + Tailwind, integrirano s Medusa JS SDK-om
+          </h2>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center gap-3 mt-20">
+          <Link href={`/${DEFAULT_COUNTRY}/products/${TARGET_PRODUCT_HANDLE}`}>
+            <Button size="lg">Nastavi na Product stranicu</Button>
+          </Link>
+        </div>
+        <div className="mt-6 text-xs md:text-sm text-ui-fg-muted">
+          Projekt za tvrtku <b className="text-B&W-Black">Agilo</b>
+        </div>
       </div>
     </div>
   )
