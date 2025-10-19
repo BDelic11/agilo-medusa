@@ -27,6 +27,7 @@ Procijenjeno vrijeme izrade rekao bih da je 4–5 dana, ne računajući upoznava
 - Node.js ≥ 20
 - Yarn ≥ 3.5 za Medusa (Yarn Berry), Yarn v1 za Storefront
 - PostgreSQL 16 (lokalno: `localhost:5432`, korisnik: `postgres`, lozinka: `postgres`)
+(radit će i s 15; bitno je da DATABASE_URL pokazuje na postojeću bazu)
 
 ## Brzi početak - QUICKSTART 
 
