@@ -55,18 +55,18 @@ yarn medusa user -e "admin@medusa.local" -p "supersecret"
 yarn dev
 
 Nakon što se backend pokrene, Medusa Admin je dostupan na http://localhost:9000/app. 
-Prijavite se s korisnikom kojeg ste upravo kreirali. U Adminu otvorite Settings → Publishable API Keys, napravite ključ i kopirajte ga za storefront konfiguraciju.
+Prijavite se s korisnikom kojeg ste upravo kreirali u admin
+
+otvorite drugi terminal za Storefront i iz root projekt foldera nastavite
 
 Storefront (Next.js)
 
-cd ../storefront
+cd /storefront
 
-### 1) Kreiranje .env.local datoteke
-cp .env.template .env.local
-
-### U .env.local postaviti:
-### NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
-### NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_test_xxx   # ključ iz Medusa Admina
+### U .env.local bi trebalo biti:
+ NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
+ NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_test_..
+ NEXT_PUBLIC_DEFAULT_REGION=hr
 
 ### 2) Instalacija ovisnosti
 yarn
@@ -74,6 +74,8 @@ yarn
 ### 3) Pokretanje dev servera
 yarn dev
 Storefront je dostupan na http://localhost:8000.
+
+Idite na: http://localhost:8000
 
 Struktura repozitorija
 
