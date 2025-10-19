@@ -33,3 +33,14 @@ build
 **/node_modules/
 **/.cache/
 **/coverage/
+
+/medusa/.yarn/*
+!/medusa/.yarn/install-state.gz
+!/medusa/.yarn/patches
+!/medusa/.yarn/plugins
+!/medusa/.yarn/releases
+!/medusa/.yarn/sdks
+!/medusa/.yarn/versions
+
+/medusa/node_modules
+/storefront/node_modules
