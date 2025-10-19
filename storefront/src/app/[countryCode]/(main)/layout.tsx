@@ -5,6 +5,7 @@ import { retrieveCustomer } from "@lib/data/customer"
 import { getBaseURL } from "@lib/util/env"
 import { StoreCartShippingOption } from "@medusajs/types"
 import CartMismatchBanner from "@modules/layout/components/cart-mismatch-banner"
+import FreeShippingPriceNudge from "@modules/shipping/components/free-shipping-price-nudge"
 import Header from "components/header"
 import Footer from "components/footer"
 
@@ -28,6 +29,14 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
       <Header />
       {customer && cart && (
         <CartMismatchBanner customer={customer} cart={cart} />
+      )}
+
+      {cart && (
+        <FreeShippingPriceNudge
+          variant="popup"
+          cart={cart}
+          shippingOptions={shippingOptions}
+        />
       )}
       {props.children}
       <Footer />
