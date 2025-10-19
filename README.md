@@ -26,9 +26,9 @@ Procijenjeno vrijeme izrade rekao bih da je 4–5 dana, ne računajući upoznava
 
 - Node.js ≥ 20
 - Yarn ≥ 3.5 za Medusa (Yarn Berry), Yarn v1 za Storefront
-- PostgreSQL 16 (lokalno: `localhost:5432`, korisnik: `postgres`, lozinka: `postgres`)
-(radit će i s 15; bitno je da DATABASE_URL pokazuje na postojeću bazu)
-
+- PostgreSQL 16 - napravit lokalno bazu (lokalno: `localhost:5432`, korisnik: `postgres`, lozinka: `postgres`)
+(radit će i s 15; bitno je da DATABASE_URL pokazuje na postojeću bazu) (name: medusa)
+ 
 ## Brzi početak - QUICKSTART 
 
 git clone "git@github.com:BDelic11/agilo-medusa.git"
@@ -46,7 +46,8 @@ yarn
 ### 3) Build projekta
 yarn build
 
-### 4) Seed baze (demo podaci)
+### 4) Migracije i Seed baze (demo podaci)
+yarn db:migrate
 yarn db:seed
 
 ### 5) Kreiranje admin korisnika
@@ -56,7 +57,7 @@ yarn medusa user -e "admin@medusa.local" -p "supersecret"
 yarn dev
 
 Nakon što se backend pokrene, Medusa Admin je dostupan na http://localhost:9000/app. 
-Prijavite se s korisnikom kojeg ste upravo kreirali u admin
+Prijavite se s korisnikom kojeg ste upravo kreirali u admin, i vidite seedane proizvode.
 
 otvorite drugi terminal za Storefront i iz root projekt foldera nastavite
 
